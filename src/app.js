@@ -3,7 +3,9 @@
 const express = require('express');
 const path = require('path');
 
-const ADMIN_KEY = process.env.ADMIN_KEY || 'gharam-admin';
+// لازم ADMIN_KEY يتظبط كمتغير بيئة على السيرفر. من غيره بنولد كود عشوائي مع كل تشغيل
+// (الإدارة مقفولة فعليا) بدل ما يكون في كود افتراضي معروف.
+const ADMIN_KEY = process.env.ADMIN_KEY || require('crypto').randomBytes(24).toString('hex');
 const SELLER_WHATSAPP = process.env.SELLER_WHATSAPP || '201550894660';
 
 // محافظات مصر الـ 27 — التوصيل متاح لكل المحافظات
@@ -107,13 +109,14 @@ function createApp(db) {
     res.status(201).json({ order });
   });
 
-  app.get('/api/orders/:id', (req, res) => {
+  // تفاصيل الطلب فيها بيانات عميل — للإدارة فقط (الأرقام متسلسلة وقابلة للتخمين)
+  app.get('/api/orders/:id', adminOnly, (req, res) => {
     const order = db.orders.find((o) => o.id === req.params.id);
     if (!order) return res.status(404).json({ error: 'الطلب غير موجود' });
     res.json({ order });
   });
 
-  // الإدارة — بكود بسيط (مناسب للتجربة، مش حماية إنتاجية)
+  // الإدارة — بكود بيتحط كمتغير بيئة على السيرفر
   function adminOnly(req, res, next) {
     if (req.get('x-admin-key') !== ADMIN_KEY) {
       return res.status(401).json({ error: 'ممنوع: كود الإدارة غير صحيح' });

@@ -7,10 +7,12 @@ const os = require('os');
 const path = require('path');
 const fs = require('fs');
 
+process.env.ADMIN_KEY = 'test-admin-key';
+
 const { createApp } = require('../src/app');
 const { createDb } = require('../src/db');
 
-const ADMIN_KEY = process.env.ADMIN_KEY || 'gharam-admin';
+const ADMIN_KEY = 'test-admin-key';
 
 function start() {
   const tmpFile = path.join(fs.mkdtempSync(path.join(os.tmpdir(), 'gharam-')), 'store.json');
@@ -130,7 +132,9 @@ test('طلب صحيح: يتسجل، الإجمالي صح، والمخزون ب�
     assert.equal(order.status, 'جديد');
     assert.equal(db.findProduct('p6').stock, stockBefore - 2);
 
-    const check = await fetch(base + '/api/orders/' + order.id);
+    const deniedCheck = await fetch(base + '/api/orders/' + order.id);
+    assert.equal(deniedCheck.status, 401);
+    const check = await fetch(base + '/api/orders/' + order.id, { headers: { 'x-admin-key': ADMIN_KEY } });
     assert.equal(check.status, 200);
     const saved = (await check.json()).order;
     assert.equal(saved.total, 400);
@@ -164,6 +168,9 @@ test('مسارات الإدارة محمية بكود', async () => {
   try {
     const denied = await fetch(base + '/api/orders');
     assert.equal(denied.status, 401);
+
+    const deniedOne = await fetch(base + '/api/orders/G-1001');
+    assert.equal(deniedOne.status, 401);
 
     const allowed = await fetch(base + '/api/orders', { headers: { 'x-admin-key': ADMIN_KEY } });
     assert.equal(allowed.status, 200);
