@@ -36,7 +36,7 @@ async function post(base, url, body, headers = {}) {
 }
 
 const validOrder = {
-  customer: { name: 'سليمة محمد', phone: '01550894660', governorate: 'دمياط', address: 'فارسكور، شارع الجمهورية', notes: '' },
+  customer: { name: 'عميلة تجريبية', phone: '01000000000', governorate: 'دمياط', address: 'عنوان تجريبي للاختبار', notes: '' },
   items: [{ productId: 'p6', qty: 2 }, { productId: 'p3', qty: 1 }]
 };
 
@@ -138,7 +138,7 @@ test('طلب صحيح: يتسجل، الإجمالي صح، والمخزون ب�
     assert.equal(check.status, 200);
     const saved = (await check.json()).order;
     assert.equal(saved.total, 400);
-    assert.equal(saved.customer.phone, '01550894660');
+    assert.equal(saved.customer.phone, '01000000000');
     assert.equal(saved.customer.governorate, 'دمياط');
   } finally { server.close(); }
 });
