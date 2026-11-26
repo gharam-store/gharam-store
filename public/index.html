@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>غرام | هاند ميد بحب</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container header-row">
+    <div class="brand">
+      <span class="brand-emoji">🧶</span>
+      <div>
+        <h1 class="brand-name">غرام</h1>
+        <p class="brand-tag">هاند ميد معمول بحب</p>
+      </div>
+    </div>
+    <button id="cart-btn" class="cart-btn" type="button">
+      🧺 السلة <span id="cart-count" class="cart-count">0</span>
+    </button>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <h2>كل قطعة معمولة بإيدينا، قطعة واحدة مش هتلاقي زيها</h2>
+    <p>كروشيه وهاند ميد لناس بتقدر الشغل اليدوي — اطلب وأنت مطمن.</p>
+  </div>
+</section>
+
+<main class="container">
+  <div class="toolbar">
+    <input id="search-input" type="search" placeholder="دوّر على منتج…" aria-label="بحث">
+    <div id="category-chips" class="chips"></div>
+  </div>
+
+  <div id="products-grid" class="grid"></div>
+  <p id="empty-msg" class="empty" hidden>لا يوجد منتجات مطابقة للبحث.</p>
+
+  <section class="admin-section">
+    <h3>إدارة المتجر</h3>
+    <div class="admin-actions">
+      <button id="add-product-btn" class="btn ghost" type="button">➕ أضف منتج</button>
+      <button id="view-orders-btn" class="btn ghost" type="button">📋 اعرض الطلبات</button>
+    </div>
+    <div id="admin-panel" class="admin-panel" hidden></div>
+  </section>
+</main>
+
+<aside id="cart-drawer" class="drawer" hidden>
+  <div class="drawer-head">
+    <h3>🧺 سلتك</h3>
+    <button id="cart-close" class="icon-btn" type="button" aria-label="إغلاق">✕</button>
+  </div>
+  <div id="cart-items" class="cart-items"></div>
+  <div class="cart-total-row">
+    <span>الإجمالي</span>
+    <strong id="cart-total">0 جنيه</strong>
+  </div>
+
+  <form id="checkout-form" class="checkout-form">
+    <h4>بيانات الطلب</h4>
+    <label>الاسم
+      <input name="name" type="text" required minlength="2" placeholder="اسمك الكريم">
+    </label>
+    <label>رقم التليفون
+      <input name="phone" type="tel" required placeholder="01xxxxxxxxx">
+    </label>
+    <label>المحافظة
+      <select name="governorate" id="governorate-select" required>
+        <option value="" disabled selected>اختار محافظتك</option>
+      </select>
+    </label>
+    <label>العنوان بالتفصيل
+      <input name="address" type="text" required minlength="5" placeholder="المدينة – المنطقة – الشارع">
+    </label>
+    <label>ملاحظات (اختياري)
+      <textarea name="notes" rows="2" placeholder="ألوان معينة؟ مقاس معين؟"></textarea>
+    </label>
+    <button id="submit-order" class="btn primary" type="submit">تأكيد الطلب</button>
+    <p id="form-error" class="form-error" hidden></p>
+  </form>
+
+  <div id="order-success" class="order-success" hidden>
+    <div class="success-emoji">✅</div>
+    <h4>طلبك اتسجل!</h4>
+    <p>رقم الطلب: <strong id="order-id"></strong></p>
+    <p>الإجمالي: <strong id="order-total"></strong></p>
+    <a id="whatsapp-link" class="btn whatsapp" href="#" target="_blank" rel="noopener">أكّد طلبك على واتساب</a>
+    <p class="small">ابعتلنا الطلب على واتساب عشان نأكد التوصيل والدفع.</p>
+  </div>
+</aside>
+<div id="overlay" class="overlay" hidden></div>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>غرام 🧶 — شغل يدوي بضمير. للطلبات الخاصة كلمينا.</p>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
